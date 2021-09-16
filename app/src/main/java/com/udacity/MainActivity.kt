@@ -1,6 +1,7 @@
 package com.udacity
 
 import android.app.DownloadManager
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -9,11 +10,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.database.ContentObserver
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -29,10 +32,9 @@ class MainActivity : AppCompatActivity() {
     private var downloadID: Long = 0
 
     private lateinit var notificationManager: NotificationManager
-    private lateinit var pendingIntent: PendingIntent
-    private lateinit var action: NotificationCompat.Action
     private lateinit var binding: ActivityMainBinding
     private var downloadObserver: ContentObserver? = null
+    private var selectedFilename = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,16 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
             registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         }
+
+        notificationManager = ContextCompat.getSystemService(
+            this,
+            NotificationManager::class.java
+        ) as NotificationManager
+
+        createChannel(
+            getString(R.string.download_notification_channel_id),
+            getString(R.string.download_notification_channel_name)
+        )
     }
 
     private val receiver = object : BroadcastReceiver() {
@@ -50,7 +62,9 @@ class MainActivity : AppCompatActivity() {
                 val downloadStatus = getDownloadManager().queryStatus(it)
                 Log.d(TAG, "Download $it completed with status: ${downloadStatus.statusText}")
                 deregisterObserver()
-                // todo make notification notify
+                downloadStatus.takeIf { status -> status != UNKNOWN }?.run {
+                    notificationManager.sendNotification(statusText, selectedFilename, context!!)
+                }
             }
         }
     }
@@ -156,8 +170,29 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please select the file to download", Toast.LENGTH_SHORT)
                     .show()
             else -> {
+                selectedFilename =
+                    findViewById<RadioButton>(binding.mainContent.downloadRadioGroup.checkedRadioButtonId)
+                        .text.toString()
                 download()
             }
+        }
+    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = getString(R.string.loadapp_notification_channel_description)
+
+            notificationManager.createNotificationChannel(notificationChannel)
         }
     }
 
@@ -169,7 +204,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
-        private const val CHANNEL_ID = "channelId"
         private const val TAG = "MainActivity"
     }
 }
