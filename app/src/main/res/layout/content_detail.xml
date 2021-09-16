@@ -3,12 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.udacity.DetailViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="32dp"
+        app:layoutDescription="@xml/detail_motion"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".DetailActivity"
+        tools:context=".detail.DetailActivity"
         tools:showIn="@layout/activity_detail">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/file_name_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/file_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:id="@+id/file_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.filename}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="?attr/colorPrimaryDark"
+            tools:text="Glide - Image Loading Library by BumpTech" />
+
+        <TextView
+            android:id="@+id/download_status_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/download_status"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:id="@+id/download_status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.downloadStatus}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="?attr/colorPrimaryDark"
+            app:statusColor="@{viewModel.downloadStatus}"
+            tools:text="Success" />
+
+        <ImageView
+            android:id="@+id/download_status_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/download_status_content_description"
+            app:statusImage="@{viewModel.downloadStatus}"
+            tools:srcCompat="@drawable/ic_check_circle_outline"
+            tools:tint="?attr/colorPrimaryDark" />
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="56dp"
+            android:onClick="onOkButtonClick"
+            android:text="@android:string/ok"
+            android:textColor="@android:color/white" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

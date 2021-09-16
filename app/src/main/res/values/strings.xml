@@ -21,4 +21,9 @@
     <string name="we_are_loading">We are loading</string>
     <string name="see_detail">See download detail</string>
     <string name="loadapp_notification_channel_description">Download complete</string>
+    <string name="file_name">File name:</string>
+    <string name="download_status">Status:</string>
+    <string name="download_completed">Download Completed</string>
+    <string name="download_status_content_description">Download status</string>
+    <string name="unknown">Unknown</string>
 </resources>

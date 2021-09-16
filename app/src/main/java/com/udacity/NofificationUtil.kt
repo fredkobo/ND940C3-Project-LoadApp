@@ -22,8 +22,8 @@ fun NotificationManager.sendNotification(downloadStatus: String, fileName:String
 
     val contentIntent = Intent(applicationContext, DetailActivity::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        putExtra("filename", fileName)
-        putExtra("downloadstatus", downloadStatus)
+        putExtra(EXTRA_FILENAME, fileName)
+        putExtra(EXTRA_DOWNLOAD_STATUS, downloadStatus)
     }
 
     val contentPendingIntent = PendingIntent.getActivity(

@@ -39,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/glide_radio_button_text"
-                android:textSize="16sp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
             <RadioButton
                 android:id="@+id/loadapp_radio_button"
@@ -47,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/loadapp_radio_button_text"
-                android:textSize="16sp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
             <RadioButton
                 android:id="@+id/retrofit_radio_button"
@@ -55,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/retrofit_radio_button_text"
-                android:textSize="16sp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
         </RadioGroup>
 
         <com.udacity.LoadingButton
