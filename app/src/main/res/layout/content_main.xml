@@ -67,9 +67,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:loadingBackgroundColor="?attr/colorPrimaryDark"
-            app:loadingText="We are loading"
-            app:loadingTextColor="@color/white" />
+            app:lbBusyBackgroundColor="?attr/colorPrimaryDark"
+            app:lbBusyText="@string/we_are_loading"
+            app:lbStartBackgroundColor="?attr/colorPrimary"
+            app:lbStartText="@string/download"
+            app:lbTextColor="@android:color/white"
+            app:lbProgressCircleColor="?attr/colorAccent"/>
 
         <ImageView
             android:id="@+id/imageView"
